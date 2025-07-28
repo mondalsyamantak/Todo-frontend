@@ -29,6 +29,7 @@ function Dashboard() {
     const [loading, setLoading] = useState(true);
     const {user, setUser} = useUser()
     const navigate = useNavigate();
+    const url = import.meta.env.VITE_BACKEND_URL;
 
     // //to show toast message (written by chatgpt)
     useEffect(() => {
@@ -45,7 +46,7 @@ function Dashboard() {
         const checkAuth = async () => {
             try {
                 //this endpoint should return user data if authenticated
-                const res = await fetch("http://localhost:8000/api/users/auth", {
+                const res = await fetch(`${url}/api/users/auth`, {
                     method: 'GET',
                     credentials: 'include', // sends cookies
                 });

@@ -41,7 +41,7 @@ function Account() {
     const datafetch = async () => {
       try {
         //this endpoint should return user data if authenticated
-        const res = await fetch("http://localhost:8000/api/users/auth", {
+        const res = await fetch(`${url}/api/users/auth`, {
             method: 'GET',
             credentials: 'include', // sends cookies
         });
