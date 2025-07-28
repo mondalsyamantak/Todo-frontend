@@ -20,6 +20,8 @@ export function LoginForm({
 
   const navigate = useNavigate();
 
+  const url = import.meta.env.VITE_BACKEND_URL;
+
   const handleSubmit =  async (e) => {
     e.preventDefault()
     setLoadingLogin(true)
@@ -29,13 +31,14 @@ export function LoginForm({
     const formData = new FormData(e.target)
 
     try {
-      const res = await fetch("/api/users/login", {
+      const res = await fetch(`${url}/api/users/login`, {
         method: "POST",
         credentials: "include",
         // body: formData //why do i need to stringify? because requests are always sent as strings
         headers: {
           "Content-Type": "application/json"
         },
+        
         body: JSON.stringify({
           email,
           password
