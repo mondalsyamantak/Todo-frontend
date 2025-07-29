@@ -17,7 +17,7 @@ import {
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
+import { NavUtilities } from "@/components/nav-utilities"
 //import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import {
@@ -70,17 +70,17 @@ export function AppSidebar({
     projects: [
       {
         name: "Pomodoro Timer",
-        url: "#",
+        url: "/pomodoro",
         icon: Hourglass,
       }, //design engineering
       {
         name: "Stopwatch",
-        url: "#",
+        url: "/pomodoro",
         icon: Timer,
       }, //sales & marketing
       {
         name: "Study Music",
-        url: "#",
+        url: "/music",
         icon: Music,
       }, //travel
     ],
@@ -108,7 +108,7 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavUtilities projects={data.projects} />
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>

@@ -109,7 +109,7 @@ function Dashboard() {
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
                 <BreadcrumbLink onClick={() => navigate("/")} className="cursor-pointer">
-                {["/", "/today"].some((field) => field?.trim() === location.pathname)? "Home" : "Other"}
+                {["/", "/today", "/tomorrow", "/this-month"].some((field) => field?.trim() === location.pathname)? "Home" : "Other"}
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
@@ -119,7 +119,8 @@ function Dashboard() {
                     (location.pathname === "/today")? "Today's tasks" : 
                       (location.pathname === "/tomorrow")? "Tomorrow's tasks" :
                         (location.pathname === "/this-month")? "This month's tasks" : 
-                          (location.pathname === "/account")? "Account" : "Unknown"
+                          (location.pathname === "/account")? "Account" : 
+                            (location.pathname === "/pomodoro")? "Pomodoro" : "Unknown"
                 }</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
