@@ -26,6 +26,7 @@ export default function AudioPlayer({audioSrc}){
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
+    const audioRef = useRef(null);
 
     const handleSeek = (e) => {
         audioRef.current.currentTime = e.target.value;
@@ -56,29 +57,30 @@ export default function AudioPlayer({audioSrc}){
         audioRef.current.addEventListener("timeupdate", handleTimeUpdate)
 
         return() => {
-            audioRef.current.removeEventListener("timeupdate", handleTimeUpdate)
+            if (audioRef.current) audioRef.current.removeEventListener("timeupdate", handleTimeUpdate)
         }
     },[])
 
-    const audioRef = useRef(null);
+    
     return (
         <Card className="flex w-full text-center max-w-[500px]">
             <CardHeader>
                 <CardTitle className="text-normal mb-3">
-                    Name of song playing
-                </CardTitle>
-                <CardDescription>
+                    
                     <img src="https://fastly.picsum.photos/id/866/536/354.jpg?hmac=tGofDTV7tl2rprappPzKFiZ9vDh5MKj39oa2D--gqhA" 
                     alt="" className="rounded-2xl" />
+                </CardTitle >
+                <CardDescription className="text-normal">
+                Hide CS01 Ambient Rework
                 </CardDescription>
                 <CardContent>
-                    <Input className="mt-3" type="range" 
+                    <Input className="mt-0" type="range" 
                     min="0" 
                     max={duration} 
                     value={currentTime} onChange={handleSeek}/>
                 
                 {/**the audio element for playing the audio */}
-                <audio ref={audioRef} src={audioSrc}/>
+                <audio ref={audioRef} src={audioSrc} loop/>
 
                 {/* display current and total duration of the track */}
                 <div className="flex">
