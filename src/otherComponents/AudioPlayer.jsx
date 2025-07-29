@@ -71,7 +71,7 @@ export default function AudioPlayer({audioSrc}){
                     alt="" className="rounded-2xl" />
                 </CardTitle >
                 <CardDescription className="text-normal">
-                Hide CS01 Ambient Rework
+                Hide CS01 
                 </CardDescription>
                 <CardContent>
                     <Input className="mt-0" type="range" 
