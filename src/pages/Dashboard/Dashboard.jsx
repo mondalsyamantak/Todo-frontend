@@ -136,7 +136,7 @@ function Dashboard() {
 
 
       
-      <SidebarInset className="block border-2 border-black overflow-hidden">
+      <SidebarInset className="block overflow-hidden">
         <DndContext onDragEnd={handleDragEnd}>
           <Droppable>
       

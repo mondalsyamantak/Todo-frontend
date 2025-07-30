@@ -36,7 +36,7 @@ export default function OuterPlayer() {
   return (
     <div className="bg-muted/50 z-10 rounded-full">
         <audio ref={audioRef} src={audioSrc} loop/> 
-        <Button id="audioButton" className="w-15 h-15 rounded-full" onClick={handlePlayPause}> {audioIsPlaying? <Pause/> : <Play/>} </Button>
+        <Button id="audioButton" className="w-10 h-10 rounded-full" onClick={handlePlayPause}> {audioIsPlaying? <Pause/> : <Play/>} </Button>
     </div>
   );
 //     return (
