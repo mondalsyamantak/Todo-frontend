@@ -19,14 +19,21 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
+import { useAudioInfo } from "@/contextApis/AudioContext";
 
-export default function AudioPlayer({audioSrc}){
+export default function AudioPlayer(){
 
     //state variables to manage the player's status
-    const [isPlaying, setIsPlaying] = useState(false);
+    //const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const audioRef = useRef(null);
+    //const audioRef = useRef(null);
+
+    const {audioSrc, setAudioSrc, audioIsPlaying, setAudioIsPlaying, audioRef} = useAudioInfo();
+
+    if (!audioRef) {
+        audioRef = useRef()
+    }
 
     const handleSeek = (e) => {
         audioRef.current.currentTime = e.target.value;
@@ -40,16 +47,16 @@ export default function AudioPlayer({audioSrc}){
 
     const handlePlay = () => {
         audioRef.current.play()
-        setIsPlaying(true)
+        setAudioIsPlaying(true)
     }
 
     const handlePause = () => {
         audioRef.current.pause()
-        setIsPlaying(false)
+        setAudioIsPlaying(false)
     }
 
     const handlePlayPause = () => {
-        if (isPlaying) handlePause()
+        if (audioIsPlaying) handlePause()
             else handlePlay()
     }
 
@@ -74,13 +81,15 @@ export default function AudioPlayer({audioSrc}){
                 Hide CS01 
                 </CardDescription>
                 <CardContent>
-                    <Input className="mt-0" type="range" 
+                    <Input className="mt-0 cursor-pointer" type="range" 
                     min="0" 
                     max={duration} 
                     value={currentTime} onChange={handleSeek}/>
                 
                 {/**the audio element for playing the audio */}
-                <audio ref={audioRef} src={audioSrc} loop/>
+
+                {/* <audio ref={audioRef} src={audioSrc} loop/> */}
+
 
                 {/* display current and total duration of the track */}
                 <div className="flex">
@@ -91,7 +100,10 @@ export default function AudioPlayer({audioSrc}){
                         (parseInt(currentTime) % 60).toString().padStart(2, '0')
                     }
                     </p>
-                    <Button onClick = {handlePlayPause} className="rounded-full"> {isPlaying? <Pause/>: <Play/>}</Button>
+                    {/* <Button onClick = {handlePlayPause} className="rounded-full"> {audioIsPlaying? <Pause/>: <Play/>}</Button> */}
+                    <div className="bg-muted/50 rounded-full">
+                        <Button id="audioButton" className="w-10 h-10 rounded-full" onClick={handlePlayPause}> {audioIsPlaying? <Pause/> : <Play/>} </Button>
+                    </div>
                 
                     <p className="ml-auto">{
                         Math.floor(parseInt(duration) / 60).toString().padStart(2, '0')

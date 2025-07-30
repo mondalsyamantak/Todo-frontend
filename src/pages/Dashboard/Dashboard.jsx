@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { AppSidebar } from "@/components/app-sidebar"
 import {
@@ -22,14 +22,50 @@ import { Toaster, toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
+import { Play } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import OuterPlayer from "@/otherComponents/OuterPlayer";
+
+//draggable components:
+// import Draggable from "react-draggable";
+import {DndContext} from '@dnd-kit/core';
+import Draggable from "./Draggable";
+import Droppable from "./Droppable";
+
+
+const floaterData = {
+  position: {
+      x: 0,
+      y: null
+    }
+};
 
 function Dashboard() {
     const location = useLocation();
+    const nodeRef= useRef(null)
+
+    
 
     const [loading, setLoading] = useState(true);
     const {user, setUser} = useUser()
     const navigate = useNavigate();
     const url = import.meta.env.VITE_BACKEND_URL;
+
+
+    const isMobile = useIsMobile()
+    const [openMobile, setOpenMobile] = useState(false)
+
+
+    const [floater, setFloater] = useState(floaterData);
+    function handleDragEnd(ev) {
+      setFloater(prev => ({
+        ...prev,
+        position: {
+          x: prev.position.x + ev.delta.x,
+          y: (prev.position.y ?? 0) + ev.delta.y,
+        }
+      }));
+    }
 
     // //to show toast message (written by chatgpt)
     useEffect(() => {
@@ -93,10 +129,17 @@ function Dashboard() {
     
     
     //userdata is contained in {userdata} 
-    return (
-    <SidebarProvider>
+    return ( 
+    <SidebarProvider className="absolute">
       <AppSidebar />
-      <SidebarInset className="block">
+
+
+
+      
+      <SidebarInset className="block border-2 border-black overflow-hidden">
+        <DndContext onDragEnd={handleDragEnd}>
+          <Droppable>
+      
 
       <Toaster richColors/>
         <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -127,12 +170,39 @@ function Dashboard() {
           </Breadcrumb>
           <div className="ml-auto"><ModeToggle/></div>
          
-          
+                
         </header>
+        <div className="absolute m-4 z-10" style={{
+          position: "absolute",
+          left: `${floater.position.x}px`,
+          top: `${floater.position.y}px`, 
+          display: (location.pathname === '/account')? "none" : "block",
+        }}>
+          <Draggable role="button">
+            <div ><OuterPlayer/></div>
+          </Draggable>
+        </div> 
+          
 
         <Outlet/>
+        {/* <div className="fixed bottom-[0%] h-28 text-center py-4 px-2" style={{ width: isMobile ? "100%" : "50%" }}> 
+          <div className="w-full h-full border rounded-2xl flex justify-center items-center bg-muted/50"> 
+            <Play/>
+          </div>
+        </div> */} 
+        
+        </Droppable>
+      </DndContext>
       </SidebarInset>
+
+          
+
       
+      {/* <Draggable nodeRef={nodeRef}>
+          <div ref={nodeRef}>
+            Hello
+          </div>
+        </Draggable> */}
     </SidebarProvider>
   );
 }

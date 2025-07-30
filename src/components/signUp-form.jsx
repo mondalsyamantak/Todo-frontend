@@ -59,13 +59,32 @@ export function SignUpForm({
     } catch (error) {
       console.log("Error during login:", error)
       toast.error(error.message)
-
     }
-
-
-
   }
 
+  const handleChange = (e) => {
+    const { username, value } = e.target;
+    //check if username is of correct format
+    const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/; // Alphanumeric and underscores, 3-20 characters
+    if (username === "username" && !usernameRegex.test(value)) {
+      toast.error("Username must be 3-20 characters long and can only contain letters, numbers, and underscores.")
+      //disable the button
+      const submitButton = document.getElementById("submit");
+      if (submitButton) {
+        submitButton.disabled = true;
+      }
+      console.log("Invalid username format:", value);
+      return;
+    } else {
+      const submitButton = document.getElementById("submit");
+      if (submitButton) {
+        submitButton.disabled = false;
+      }
+      setUsername(value)
+      console.log(value);
+    }
+
+  }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -83,7 +102,7 @@ export function SignUpForm({
 
               <div className="grid gap-3">
                 <Label htmlFor="username">Username</Label>
-                <Input id="username" type="text" placeholder="Enter username" onChange={(e) => setUsername(e.target.value)}  />
+                <Input id="username" type="text" placeholder="Enter username" onChange={(e) => handleChange(e)}  />
               </div>
 
               <div className="grid gap-3">
@@ -103,7 +122,7 @@ export function SignUpForm({
                 <Input id="password" type="password" onChange={(e) => setPassword(e.target.value)}  />
               </div>
 
-              <Button type="submit" className="w-full cursor-pointer">
+              <Button type="submit" id="submit" className="w-full cursor-pointer">
                 Sign Up
               </Button>
               {/* <div

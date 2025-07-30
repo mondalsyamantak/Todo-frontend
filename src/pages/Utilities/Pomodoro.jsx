@@ -1,4 +1,4 @@
-import { usePomo } from "@/contextApis/PomoContext";
+
 import { Button } from "@/components/ui/button";
 import { Pause, Play, Redo, Trash2 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
@@ -38,7 +38,6 @@ export default function Pomodoro() {
                 const now = new Date();
                 const elapsed = (now.getTime() - startRef.current.getTime()) + pauseElapsedRef.current
                 setVal(elapsed)
-                console.log(Math.floor(elapsed/1000))
             }, 1);
         }
 
